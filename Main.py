@@ -5,6 +5,7 @@ from sklearn.neighbors import KNeighborsRegressor
 import sklearn.neighbors as sk
 import matplotlib.pyplot as plt
 
+# Ais data pode ser encontrado nesse link https://coast.noaa.gov/htdata/CMSP/AISDataHandler/2022/
 def load_data():
     data = pd.DataFrame()
     data = pd.read_csv("AIS_2020_01_01.csv") #arquivo AIS bruto .csv
@@ -37,7 +38,7 @@ def exportcords(): # função que le a lista sinais e exporta cada DataFrame dos
     for i in range(1,v_sign.shape[0]):
         data.loc[data['CallSign'] == v_sign.iloc[i,-1]].to_csv("Vessel/" +v_sign.iloc[i,-1] +".csv", index = False)
 
-def seconds_generator(path):
+def seconds_generator(path): #função que converte coluna 'BaseDateTime em um numero inteiro.
     data = pd.read_csv(path)
 
     for i in range (len(data)):
@@ -47,7 +48,7 @@ def seconds_generator(path):
     return data.to_csv(path,index=False)
 
 
-def hour_generator(path):
+def hour_generator(path): #função que gera horas faltantes entre os intervalos fornecidos.
     seconds_generator(path)
 
     data = pd.DataFrame()
@@ -74,7 +75,7 @@ def hour_generator(path):
     data_sort.to_csv("Predict/"+path, index=False)
     seconds_generator("Predict/"+path)
 
-def knnimputer(path):
+def knnimputer(path): #função que implementa o previsor
     data_set = pd.DataFrame()
     data_set = pd.read_csv(path)
     data_pred = pd.read_csv("Predict/"+path)
@@ -100,7 +101,7 @@ def knnimputer(path):
 
     data_pred.to_csv("Predict/Knn/" + new_path + ".csv", index= False)
 
-def grafico(path):
+def grafico(path): #função gera um grafico de comparação dos valores fornecidos e os valores previstos.
     data_set = pd.read_csv(path)
     data_pred = pd.read_csv("Predict/Knn/" + data_set['CallSign'][0] + ".csv")
 
@@ -110,5 +111,6 @@ def grafico(path):
     plt.show()
 
 
-
-grafico("Vessel/LAJS7.csv")
+hour_generator("Vessel/2BKM2.csv")
+knnimputer("Vessel/2BKM2.csv")
+grafico("Vessel/2BKM2.csv")
