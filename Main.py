@@ -109,8 +109,3 @@ def grafico(path): #função gera um grafico de comparação dos valores forneci
     axs[0].scatter(data_set['segundos'],data_set['LAT'])
     axs[1].scatter(data_pred['segundos'], data_pred['LAT'])
     plt.show()
-
-
-hour_generator("Vessel/2BKM2.csv")
-knnimputer("Vessel/2BKM2.csv")
-grafico("Vessel/2BKM2.csv")
