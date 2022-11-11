@@ -33,7 +33,7 @@ def exportar_cordenadas(): # função que le a lista sinais e exporta cada DataF
 
 
     for i in range(1,v_sign.shape[0]):
-        data.loc[data['IMO'] == v_sign.iloc[i,-1]].to_csv("Vessel/" +v_sign.iloc[i,-1] +".csv", index = False)
+        data.loc[data['IMO'] == v_sign.iloc[i,-1]].to_csv("Vessel_byIMO/" +v_sign.iloc[i,-1] +".csv", index = False)
 
 def seconds_generator(path): #função que converte coluna 'BaseDateTime em um numero inteiro.
     data = pd.read_csv(path)
@@ -71,7 +71,7 @@ def hour_generator(path): #função que gera horas faltantes entre os intervalos
     data_sort.to_csv("Predict/"+path, index=False)
     seconds_generator("Predict/"+path)
 
-def knnimputer(path, n): #função que implementa o previsor
+def knnimputer(data_set, data_pred): #função que implementa o previsor sendo data_set os daos originais e data_pred os dados a serem previstos.
     data_set = pd.DataFrame()
     data_set = pd.read_csv(path)
     data_pred = pd.read_csv("Predict/"+path)
